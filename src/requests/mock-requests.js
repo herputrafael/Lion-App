@@ -10,6 +10,8 @@ export const userLogin = (username, password) =>
             id: 1,
             name: 'Admin User',
             email: 'admin@example.com',
+            adress: 'Example Street',
+            phone: '0777 777 777',
           },
           token: 'mock-token-1234567890',
         });

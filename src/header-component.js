@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import './user/user-menu-component.js'; // Import the UserMenuComponent
 
 class HeaderComponent extends LitElement {
   static properties = {
@@ -11,21 +12,27 @@ class HeaderComponent extends LitElement {
       color: white;
       padding: 1rem;
       text-align: center;
-      display: block;
+      display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
-    button {
-      background-color: #f44336;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      text-align: center;
-      font-size: 16px;
-      cursor: pointer;
-    }
   `;
+
+  render() {
+    return html`
+      <header>
+        <h1>Welcome to Lion App</h1>
+        ${this.isLoggedIn
+          ? html`
+              <user-menu-component
+                @logout-success=${this._logoutHandler}
+                @show-user-details=${this._showUserDetails}
+              ></user-menu-component>
+            `
+          : null}
+      </header>
+    `;
+  }
 
   _logoutHandler() {
     this.dispatchEvent(
@@ -33,15 +40,10 @@ class HeaderComponent extends LitElement {
     );
   }
 
-  render() {
-    return html`
-      <header>
-        <h1>Welcome to Lion App</h1>
-        ${this.isLoggedIn
-          ? html`<button @click=${this._logoutHandler}>Logout</button>`
-          : null}
-      </header>
-    `;
+  _showUserDetails() {
+    this.dispatchEvent(
+      new CustomEvent('show-user-details', { bubbles: true, composed: true }),
+    );
   }
 }
 

@@ -4,12 +4,14 @@ import './footer-component.js';
 import './main-app-component.js';
 import './login/login-component.js';
 import './login/logout-component.js';
+import './user/user-details-component.js';
 
 class LionApp extends LitElement {
   static properties = {
     isLoggedIn: { type: Boolean },
     userData: { type: Object },
     token: { type: String },
+    showUserDetails: { type: Boolean },
   };
 
   static styles = css`
@@ -33,6 +35,7 @@ class LionApp extends LitElement {
     this.isLoggedIn = false;
     this.userData = null;
     this.token = '';
+    this.showUserDetails = false;
   }
 
   connectedCallback() {
@@ -49,11 +52,17 @@ class LionApp extends LitElement {
 
     this.addEventListener('login-success', this._onLoginSuccess);
     this.addEventListener('logout-success', this._onLogoutSuccess);
+    this.addEventListener('show-user-details', this._onShowUserDetails);
+    this.addEventListener('redirect-to-main', this._redirectToMain);
+    this.addEventListener('back-to-main', this._redirectToMain);
   }
 
   disconnectedCallback() {
     this.removeEventListener('login-success', this._onLoginSuccess);
     this.removeEventListener('logout-success', this._onLogoutSuccess);
+    this.removeEventListener('show-user-details', this._onShowUserDetails);
+    this.removeEventListener('redirect-to-main', this._redirectToMain);
+    this.removeEventListener('back-to-main', this._redirectToMain);
     super.disconnectedCallback();
   }
 
@@ -71,21 +80,40 @@ class LionApp extends LitElement {
     this.isLoggedIn = false;
     this.userData = null;
     this.token = '';
+    this.showUserDetails = false;
 
     localStorage.removeItem('userData');
     localStorage.removeItem('token');
   }
 
+  _onShowUserDetails() {
+    this.showUserDetails = true;
+  }
+
+  _redirectToMain() {
+    this.showUserDetails = false;
+  }
+
   render() {
+    let mainContent;
+
+    if (this.isLoggedIn) {
+      if (this.showUserDetails) {
+        mainContent = html`<user-details-component
+          .user=${this.userData}
+        ></user-details-component>`;
+      } else {
+        mainContent = html`<main-app-component
+          .user=${this.userData}
+        ></main-app-component>`;
+      }
+    } else {
+      mainContent = html`<login-component></login-component>`;
+    }
+
     return html`
       <header-component .isLoggedIn=${this.isLoggedIn}></header-component>
-      <main>
-        ${this.isLoggedIn && this.userData
-          ? html`
-              <main-app-component .user=${this.userData}> </main-app-component>
-            `
-          : html`<login-component></login-component>`}
-      </main>
+      <main>${mainContent}</main>
       <footer-component></footer-component>
     `;
   }
