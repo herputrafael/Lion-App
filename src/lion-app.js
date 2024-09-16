@@ -94,6 +94,19 @@ class LionApp extends LitElement {
     this.showUserDetails = false;
   }
 
+  getUserInitials() {
+    if (this.userData && this.userData.name) {
+      const nameParts = this.userData.name.split(' ');
+      const initials = nameParts
+        .map(part => part[0])
+        .join('')
+        .toUpperCase();
+      console.log(initials, this.userData.name);
+      return initials;
+    }
+    return 'U';
+  }
+
   render() {
     let mainContent;
 
@@ -112,7 +125,10 @@ class LionApp extends LitElement {
     }
 
     return html`
-      <header-component .isLoggedIn=${this.isLoggedIn}></header-component>
+      <header-component
+        .userInitials=${this.getUserInitials()}
+        .isLoggedIn=${this.isLoggedIn}
+      ></header-component>
       <main>${mainContent}</main>
       <footer-component></footer-component>
     `;

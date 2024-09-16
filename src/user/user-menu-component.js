@@ -1,6 +1,10 @@
 import { LitElement, html, css } from 'lit';
 
 class UserMenuComponent extends LitElement {
+  static properties = {
+    userInitials: { type: String },
+  };
+
   static styles = css`
     .menu {
       position: relative;
@@ -82,18 +86,9 @@ class UserMenuComponent extends LitElement {
           @keydown=${event =>
             UserMenuComponent._handleKeydown(event, this._showUserDetails)}
         >
-          U
+          ${this.userInitials}
         </div>
         <div class="dropdown-content">
-          <div
-            class="menu-item"
-            tabindex="0"
-            @click=${this._showUserDetails}
-            @keydown=${event =>
-              UserMenuComponent._handleKeydown(event, this._showUserDetails)}
-          >
-            User Details
-          </div>
           <div
             class="menu-item"
             tabindex="0"

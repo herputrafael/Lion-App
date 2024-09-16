@@ -5,7 +5,7 @@ class FooterComponent extends LitElement {
     footer {
       background-color: #1a2b42;
       color: white;
-      padding: 1rem;
+      padding: 0rem 1rem;
       text-align: center;
       position: fixed;
       width: 100%;

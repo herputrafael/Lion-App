@@ -4,13 +4,14 @@ import './user/user-menu-component.js'; // Import the UserMenuComponent
 class HeaderComponent extends LitElement {
   static properties = {
     isLoggedIn: { type: Boolean },
+    userInitials: { type: String },
   };
 
   static styles = css`
     header {
       background-color: #1a2b42;
       color: white;
-      padding: 1rem;
+      padding: 0rem 1rem;
       text-align: center;
       display: flex;
       justify-content: space-between;
@@ -26,8 +27,9 @@ class HeaderComponent extends LitElement {
           ? html`
               <user-menu-component
                 @logout-success=${this._logoutHandler}
-                @show-user-details=${this._showUserDetails}
-              ></user-menu-component>
+                .userInitials=${this.userInitials}
+              >
+              </user-menu-component>
             `
           : null}
       </header>
@@ -37,12 +39,6 @@ class HeaderComponent extends LitElement {
   _logoutHandler() {
     this.dispatchEvent(
       new CustomEvent('logout-success', { bubbles: true, composed: true }),
-    );
-  }
-
-  _showUserDetails() {
-    this.dispatchEvent(
-      new CustomEvent('show-user-details', { bubbles: true, composed: true }),
     );
   }
 }

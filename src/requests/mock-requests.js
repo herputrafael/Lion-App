@@ -8,7 +8,7 @@ export const userLogin = (username, password) =>
           success: true,
           userData: {
             id: 1,
-            name: 'Admin User',
+            name: 'User Example',
             email: 'admin@example.com',
             adress: 'Example Street',
             phone: '0777 777 777',
