@@ -1,15 +1,13 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 
 class MainAppComponent extends LitElement {
-  static styles = css``;
+  constructor() {
+    super();
+    this.header = 'My app';
+  }
 
   render() {
-    return html`
-      <div>
-        <h1>Welcome to My Lion App</h1>
-        <div></div>
-      </div>
-    `;
+    return html`Main Lion App`;
   }
 }
 
