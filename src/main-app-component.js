@@ -7,7 +7,7 @@ class MainAppComponent extends LitElement {
   }
 
   render() {
-    return html`Main Lion App`;
+    return html`Main Lion App 333`;
   }
 }
 

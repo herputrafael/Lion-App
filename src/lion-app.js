@@ -8,6 +8,8 @@ import './login/logout-component.js';
 class LionApp extends LitElement {
   static properties = {
     isLoggedIn: { type: Boolean },
+    user: { type: Object },
+    token: { type: String },
   };
 
   static styles = css`
@@ -28,7 +30,9 @@ class LionApp extends LitElement {
 
   constructor() {
     super();
-    this.isLoggedIn = false; // Initially, the user is not logged in
+    this.isLoggedIn = false;
+    this.user = null;
+    this.token = '';
   }
 
   connectedCallback() {
@@ -43,22 +47,27 @@ class LionApp extends LitElement {
     super.disconnectedCallback();
   }
 
-  _onLoginSuccess() {
-    this.isLoggedIn = true; // User is logged in
+  _onLoginSuccess(event) {
+    const { user, token } = event.detail;
+    this.user = user;
+    this.token = token;
+    this.isLoggedIn = true;
   }
 
   _onLogoutSuccess() {
-    this.isLoggedIn = false; // User is logged out
+    this.isLoggedIn = false;
   }
 
   render() {
     return html`
-      <header-component></header-component>
+      <header-component .isLoggedIn=${this.isLoggedIn}></header-component>
       <main>
         ${this.isLoggedIn
           ? html`
-              <div>Main Lion App</div>
-              <logout-component></logout-component>
+              <main-app-component
+                .user=${this.user}
+                .token=${this.token}
+              ></main-app-component>
             `
           : html`<login-component></login-component>`}
       </main>
