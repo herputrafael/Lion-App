@@ -6,45 +6,123 @@ import { userLogin } from '../requests/mock-requests.js';
 
 class LoginComponent extends LitElement {
   static styles = css`
-    /* Set the width of the form */
-
     form {
-      width: 300px; /* Adjust the width as needed */
-      margin: 0 auto; /* Center the form horizontally */
+      width: 300px;
+      margin: 0 auto;
+      position: relative;
     }
 
-    /* Ensure inputs take up full form width */
     lion-input {
       width: 100%;
       margin-top: 10px;
     }
 
-    /* Styling the error message */
-    p {
-      color: red;
-      margin-top: 10px;
-    }
-
-    /* Styling the button to be full-width */
     lion-button {
       margin-top: 10px;
+      margin-bottom: 10px;
       display: grid;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .eye-icon {
+      position: absolute;
+      top: 27px;
+      right: 0px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 20px;
+      background: none;
+      border: none;
+      color: #333;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: 30px;
+      right: -20px;
+      transform: translateY(-50%);
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 180px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      padding: 5px;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -90px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .info-icon {
+      font-size: 16px;
+      color: #000;
+    }
+
+    .error-message {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: red;
+      background-color: white;
+      padding: 10px;
+      border: 1px solid red;
+      border-radius: 5px;
+      width: 280px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .form-container {
+      position: relative;
+      height: 400px;
+      overflow: visible;
+      margin-top: 80px;
     }
   `;
 
   static properties = {
     errorMessage: { type: String },
+    showPassword: { type: Boolean },
   };
 
   constructor() {
     super();
     this.errorMessage = '';
+    this.showPassword = false;
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   _validatePassword(password) {
     const hasUppercase = /[A-Z]/.test(password);
     const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const hasTwoNumbers = /[0-9].*[0-9]/.test(password);
+    const isValidLength = password.length >= 8 && password.length <= 20;
+
+    if (!isValidLength) {
+      this.errorMessage = 'Password must be between 8 and 20 characters.';
+      return false;
+    }
 
     if (!hasUppercase || !hasSpecialCharacter || !hasTwoNumbers) {
       this.errorMessage =
@@ -96,7 +174,7 @@ class LoginComponent extends LitElement {
             }),
           );
         } else {
-          this.errorMessage = 'Invalid credentials. Please try again.'; // Show error message below the form
+          this.errorMessage = 'Invalid credentials. Please try again.';
         }
       })
       .catch(error => {
@@ -107,32 +185,59 @@ class LoginComponent extends LitElement {
 
   render() {
     return html`
-      <div>
-        <div>
-          ${this.errorMessage
-            ? html`<p style="color: red;">${this.errorMessage}</p>`
-            : ''}
-        </div>
-        <div>
-          <lion-form>
-            <form>
+      <div class="form-container">
+        <lion-form>
+          <form>
+            <div class="input-wrapper">
               <lion-input
                 name="username"
                 label="Username"
                 placeholder="Enter your username"
               ></lion-input>
+              <span class="tooltip info-icon">
+                ⓘ
+                <span class="tooltiptext">Enter a valid username</span>
+              </span>
+            </div>
+
+            <div class="input-wrapper">
               <lion-input
                 name="password"
                 label="Password"
-                type="password"
+                .type=${this.showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
               ></lion-input>
-              <lion-button type="submit" @click=${this.loginHandler}
-                >Login</lion-button
+
+              <button
+                class="eye-icon"
+                @click=${this.togglePasswordVisibility}
+                type="button"
+                aria-label="Toggle password visibility"
               >
-            </form>
-          </lion-form>
-        </div>
+                ${
+                  this.showPassword
+                    ? html`<span>&#128065;</span>` /* Eye icon for 'Hide' */
+                    : html`<span>&#128065;</span>` /* Eye icon for 'Show' */
+                }
+              </button>
+
+              <span class="tooltip info-icon">
+                ⓘ
+                <span class="tooltiptext"
+                  >Password must contain at least one uppercase letter, one
+                  special character, and two numbers</span
+                >
+              </span>
+            </div>
+
+            <lion-button type="submit" @click=${this.loginHandler}>
+              Login
+            </lion-button>
+          </form>
+        </lion-form>
+        ${this.errorMessage
+          ? html`<div class="error-message">${this.errorMessage}</div>`
+          : ''}
       </div>
     `;
   }
