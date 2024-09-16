@@ -168,7 +168,7 @@ class LoginComponent extends LitElement {
         if (response.success) {
           this.dispatchEvent(
             new CustomEvent('login-success', {
-              detail: { user: response.user, token: response.token },
+              detail: { userData: response.userData, token: response.token },
               bubbles: true,
               composed: true,
             }),

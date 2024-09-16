@@ -1,13 +1,17 @@
 import { LitElement, html } from 'lit';
 
 class MainAppComponent extends LitElement {
+  static properties = {
+    user: { type: Object },
+  };
+
   constructor() {
     super();
-    this.header = 'My app';
+    this.user = {};
   }
 
   render() {
-    return html`Main Lion App 333`;
+    return html` Welcome, ${this.user?.name ? this.user.name : 'Guest'}! `;
   }
 }
 

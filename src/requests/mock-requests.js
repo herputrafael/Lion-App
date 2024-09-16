@@ -6,7 +6,7 @@ export const userLogin = (username, password) =>
       if (username === 'admin' && password === 'Password12*') {
         resolve({
           success: true,
-          user: {
+          userData: {
             id: 1,
             name: 'Admin User',
             email: 'admin@example.com',

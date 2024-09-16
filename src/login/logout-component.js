@@ -6,6 +6,9 @@ class LogoutComponent extends LitElement {
     this.dispatchEvent(
       new CustomEvent('logout-success', { bubbles: true, composed: true }),
     );
+
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
   }
 
   render() {

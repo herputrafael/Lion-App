@@ -8,7 +8,7 @@ import './login/logout-component.js';
 class LionApp extends LitElement {
   static properties = {
     isLoggedIn: { type: Boolean },
-    user: { type: Object },
+    userData: { type: Object },
     token: { type: String },
   };
 
@@ -31,12 +31,22 @@ class LionApp extends LitElement {
   constructor() {
     super();
     this.isLoggedIn = false;
-    this.user = null;
+    this.userData = null;
     this.token = '';
   }
 
   connectedCallback() {
     super.connectedCallback();
+
+    const savedUserData = localStorage.getItem('userData');
+    const savedToken = localStorage.getItem('token');
+
+    if (savedUserData && savedToken) {
+      this.userData = JSON.parse(savedUserData);
+      this.token = savedToken;
+      this.isLoggedIn = true;
+    }
+
     this.addEventListener('login-success', this._onLoginSuccess);
     this.addEventListener('logout-success', this._onLogoutSuccess);
   }
@@ -48,26 +58,31 @@ class LionApp extends LitElement {
   }
 
   _onLoginSuccess(event) {
-    const { user, token } = event.detail;
-    this.user = user;
+    const { userData, token } = event.detail;
+    this.userData = userData;
     this.token = token;
     this.isLoggedIn = true;
+
+    localStorage.setItem('userData', JSON.stringify(userData));
+    localStorage.setItem('token', token);
   }
 
   _onLogoutSuccess() {
     this.isLoggedIn = false;
+    this.userData = null;
+    this.token = '';
+
+    localStorage.removeItem('userData');
+    localStorage.removeItem('token');
   }
 
   render() {
     return html`
       <header-component .isLoggedIn=${this.isLoggedIn}></header-component>
       <main>
-        ${this.isLoggedIn
+        ${this.isLoggedIn && this.userData
           ? html`
-              <main-app-component
-                .user=${this.user}
-                .token=${this.token}
-              ></main-app-component>
+              <main-app-component .user=${this.userData}> </main-app-component>
             `
           : html`<login-component></login-component>`}
       </main>
