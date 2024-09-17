@@ -13,6 +13,11 @@ Clone the git repo and install it using `npm install`.
 Use after that `npm start` to run the project.
 Use `npm test` so you can run the tests.
 
+Login with user: admin and password: Password12*
+Click on the avatar on the right of the header to display the user data or use the logout button to get logged out.
+
+Or check it online: https://de200262.lion-app.pages.dev/
+
 ## Useful Scripts
 
 - `start` runs your app for development, reloading on file changes

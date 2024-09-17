@@ -196,7 +196,7 @@ class LoginComponent extends LitElement {
               ></lion-input>
               <span class="tooltip info-icon">
                 ⓘ
-                <span class="tooltiptext">Enter a valid username</span>
+                <span class="tooltiptext">Enter a valid username (admin)</span>
               </span>
             </div>
 
@@ -225,7 +225,7 @@ class LoginComponent extends LitElement {
                 ⓘ
                 <span class="tooltiptext"
                   >Password must contain at least one uppercase letter, one
-                  special character, and two numbers</span
+                  special character, and two numbers (Password12*)</span
                 >
               </span>
             </div>
