@@ -101,7 +101,6 @@ class LionApp extends LitElement {
         .map(part => part[0])
         .join('')
         .toUpperCase();
-      console.log(initials, this.userData.name);
       return initials;
     }
     return 'U';

@@ -11,7 +11,9 @@ class MainAppComponent extends LitElement {
   }
 
   render() {
-    return html` Welcome, ${this.user?.name ? this.user.name : 'Guest'}! `;
+    return html`<div class="welcome-text">
+      Welcome, ${this.user?.name ? this.user.name : 'Guest'}!
+    </div>`;
   }
 }
 

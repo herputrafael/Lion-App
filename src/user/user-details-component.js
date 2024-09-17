@@ -49,10 +49,10 @@ class UserDetailsComponent extends LitElement {
       <div class="user-details">
         <button class="back-button" @click=${this._goBack}>&#8592;</button>
         <h2>User Details</h2>
-        <p>Name: ${this.user.name}</p>
-        <p>Email: ${this.user.email}</p>
-        <p>Adress: ${this.user.adress}</p>
-        <p>Phone: ${this.user.phone}</p>
+        <p>Name: ${this.user?.name}</p>
+        <p>Email: ${this.user?.email}</p>
+        <p>Adress: ${this.user?.adress}</p>
+        <p>Phone: ${this.user?.phone}</p>
       </div>
     `;
   }

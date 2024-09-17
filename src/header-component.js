@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import './user/user-menu-component.js'; // Import the UserMenuComponent
+import './user/user-menu-component.js';
 
 class HeaderComponent extends LitElement {
   static properties = {
