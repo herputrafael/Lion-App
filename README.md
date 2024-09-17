@@ -16,7 +16,7 @@ Use `npm test` so you can run the tests.
 Login with user: admin and password: Password12*
 Click on the avatar on the right of the header to display the user data or use the logout button to get logged out.
 
-Or check it online: https://de200262.lion-app.pages.dev/
+Or check it online: (https://c75eeb56.lion-app.pages.dev/)
 
 ## Useful Scripts
 
