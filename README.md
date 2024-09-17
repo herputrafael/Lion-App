@@ -9,13 +9,11 @@
 ## Quickstart
 
 To get started:
+Clone the git repo and install it using `npm install`.
+Use after that `npm start` to run the project.
+Use `npm test` so you can run the tests.
 
-```bash
-npm init @open-wc
-# requires node 10 & npm 6 or higher
-```
-
-## Scripts
+## Useful Scripts
 
 - `start` runs your app for development, reloading on file changes
 - `start:build` runs your app after it has been built using the build command
